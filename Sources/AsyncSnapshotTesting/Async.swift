@@ -12,8 +12,10 @@ public extension Async {
 
     func run() async -> Value {
         await withCheckedContinuation { continuation in
-            run { value in
-                continuation.resume(returning: value)
+            Task { @MainActor in
+                run { value in
+                    continuation.resume(returning: value)
+                }
             }
         }
     }
